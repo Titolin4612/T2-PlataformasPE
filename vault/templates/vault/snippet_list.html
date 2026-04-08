@@ -3,44 +3,114 @@
 {% block title %}Lista de snippets{% endblock %}
 
 {% block content %}
-<section class="mb-8 rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl shadow-slate-950/20">
-    <div class="max-w-3xl">
-        <p class="text-sm uppercase tracking-[0.24em] text-indigo-300">Biblioteca</p>
-        <h1 class="mt-3 text-3xl font-semibold text-white sm:text-4xl">Biblioteca de snippets</h1>
-        <p class="mt-3 text-slate-400">Guarda y administra comandos y fragmentos de código con una experiencia moderna y clara.</p>
-    </div>
-</section>
+<section class="vault-overview">
+    <header class="vault-hero">
+        <div>
+            <p class="vault-kicker">Snippet library</p>
+            <h1 class="vault-title">Biblioteca de snippets con estética de developer tool.</h1>
+            <p class="vault-subtitle">Gestiona comandos y fragmentos con una interfaz más cercana a GitHub Dark, Linear o un editor moderno: paneles profundos, jerarquía clara y previews de código tratadas como contenido principal.</p>
 
-<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {% for snippet in snippets %}
-        <article class="flex h-full flex-col justify-between overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/95 p-5 shadow-xl shadow-slate-950/20 transition duration-200 hover:-translate-y-1 hover:border-indigo-500/40 hover:bg-slate-900">
-            <div>
-                <div class="mb-4 flex flex-wrap gap-2">
-                    <span class="rounded-full bg-indigo-500/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-indigo-300">{{ snippet.get_lenguaje_display }}</span>
-                    <span class="rounded-full bg-slate-700/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-100">{{ snippet.get_categoria_display }}</span>
-                    {% if snippet.destacado %}
-                        <span class="rounded-full bg-amber-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-amber-300">Destacado</span>
-                    {% endif %}
-                </div>
-
-                <h2 class="text-xl font-semibold text-white">{{ snippet.titulo }}</h2>
-                <p class="mt-3 text-slate-400">{{ snippet.descripcion|truncatechars:100 }}</p>
-
-                <div class="mt-5 rounded-3xl border border-slate-800 bg-slate-950/90 p-4">
-                    <pre class="max-h-44 overflow-auto text-sm leading-6 text-sky-300"><code>{{ snippet.codigo|truncatechars:180 }}</code></pre>
-                </div>
+            <div class="vault-hero-actions">
+                <a href="{% url 'snippet_create' %}" class="vault-link-btn vault-link-btn--primary">Crear snippet</a>
+                <a href="#snippet-grid" class="vault-link-btn">Explorar biblioteca</a>
             </div>
-
-            <div class="mt-6 flex flex-wrap items-center justify-between gap-3 text-slate-400">
-                <span class="text-sm">{{ snippet.creado_en|date:"d/m/Y H:i" }}</span>
-                <a href="{% url 'snippet_detail' snippet.pk %}" class="inline-flex items-center rounded-2xl bg-slate-800 px-4 py-2 text-sm font-semibold text-white transition duration-200 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">Ver detalle</a>
-            </div>
-        </article>
-    {% empty %}
-        <div class="col-span-full rounded-3xl border border-dashed border-slate-700 bg-slate-900/80 p-8 text-center text-slate-400">
-            <p class="text-lg font-semibold text-slate-100">No hay snippets todavía.</p>
-            <p class="mt-2">Crea el primero para guardar tus comandos y fragmentos de código.</p>
         </div>
-    {% endfor %}
-</div>
+
+        <div class="vault-hero-panel">
+            <article class="vault-panel">
+                <p class="vault-panel-label">Snippets cargados</p>
+                <p class="vault-panel-value">{{ snippets|length }}</p>
+                <p class="vault-panel-copy">La lista mantiene el CRUD actual, pero la lectura visual ahora prioriza el código y el escaneo rápido.</p>
+            </article>
+
+            <article class="vault-panel">
+                <p class="vault-panel-label">Modo actual</p>
+                <p class="vault-panel-copy">Fase 1 del refinamiento visual: shell compartido, mejor listado, estado vacío premium y sistema CSS reutilizable sin mover la arquitectura MVT.</p>
+            </article>
+        </div>
+    </header>
+
+    {% if snippets %}
+        <section class="vault-list-layout" id="snippet-grid">
+            <div class="vault-card-grid">
+                {% for snippet in snippets %}
+                    <article class="snippet-card{% if snippet.destacado %} snippet-card--featured{% endif %}">
+                        <div class="snippet-card-top">
+                            <div class="snippet-window-dots" aria-hidden="true">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span class="snippet-seq">#{{ forloop.counter|stringformat:"02d" }}</span>
+                        </div>
+
+                        <div class="snippet-tags">
+                            <span class="snippet-tag snippet-tag--language">{{ snippet.get_lenguaje_display }}</span>
+                            <span class="snippet-tag">{{ snippet.get_categoria_display }}</span>
+                            {% if snippet.destacado %}
+                                <span class="snippet-tag snippet-tag--featured">Destacado</span>
+                            {% endif %}
+                        </div>
+
+                        <div>
+                            <h2 class="snippet-title">{{ snippet.titulo }}</h2>
+                            <p class="snippet-description">{{ snippet.descripcion|truncatechars:130 }}</p>
+                        </div>
+
+                        <div class="snippet-code">
+                            <div class="snippet-code-header">
+                                <span>Preview</span>
+                                <span>{{ snippet.get_lenguaje_display }}</span>
+                            </div>
+                            <pre><code>{{ snippet.codigo|truncatechars:220 }}</code></pre>
+                        </div>
+
+                        <footer class="snippet-card-footer">
+                            <div>
+                                <p class="snippet-meta-label">Creado</p>
+                                <p class="snippet-meta-value">{{ snippet.creado_en|date:"d/m/Y H:i" }}</p>
+                            </div>
+                            <a href="{% url 'snippet_detail' snippet.pk %}" class="vault-card-link">Ver detalle</a>
+                        </footer>
+                    </article>
+                {% endfor %}
+            </div>
+
+            <aside class="vault-sidebar">
+                <section class="vault-sidebar-card">
+                    <p class="vault-kicker">Visual system</p>
+                    <h2 class="vault-sidebar-title">Oscuro, técnico y con mejor contraste.</h2>
+                    <p class="vault-sidebar-copy">La composición usa un shell sobrio, superficies con profundidad, tipografía mono para código y acentos cian discretos para que el contenido se sienta más producto y menos plantilla genérica.</p>
+                </section>
+
+                <section class="vault-sidebar-card">
+                    <p class="vault-kicker">Reading flow</p>
+                    <div class="vault-sidebar-list">
+                        <div class="vault-sidebar-item">
+                            <strong>Etiquetas claras</strong>
+                            <span>Lenguaje, categoría y destacado destacan sin competir con el título.</span>
+                        </div>
+                        <div class="vault-sidebar-item">
+                            <strong>Bloque de código fuerte</strong>
+                            <span>El preview se presenta como mini editor, no como caja secundaria.</span>
+                        </div>
+                        <div class="vault-sidebar-item">
+                            <strong>Acción contenida</strong>
+                            <span>El CTA principal queda al final de cada tarjeta con mejor foco visual.</span>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </section>
+    {% else %}
+        <section class="vault-empty">
+            <p class="vault-kicker">Empty vault</p>
+            <h2 class="vault-empty-title">No hay snippets todavía.</h2>
+            <p class="vault-empty-copy">La base visual ya quedó preparada para una biblioteca más premium y orientada a ingeniería. El siguiente paso natural es crear tu primer snippet y empezar a poblar la colección con comandos, recetas y bloques reutilizables.</p>
+            <div class="vault-empty-actions">
+                <a href="{% url 'snippet_create' %}" class="vault-create-btn">Crear primer snippet</a>
+            </div>
+        </section>
+    {% endif %}
+</section>
 {% endblock %}
