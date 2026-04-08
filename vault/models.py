@@ -11,6 +11,10 @@ class Snippet(models.Model):
         ('sql', 'SQL'),
         ('django', 'Django'),
         ('git', 'Git'),
+        ('docker', 'Docker'),
+        ('regex', 'Regex'),
+        ('json', 'JSON'),
+        ('yaml', 'YAML'),
     ]
 
     CATEGORIAS = [

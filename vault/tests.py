@@ -67,8 +67,8 @@ class SnippetListViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(snippets[0].titulo, "Snippet reciente")
-        self.assertNotContains(response, "Vista actual")
-        self.assertNotContains(response, "Visual system")
+        self.assertEqual(response.context["active_sort"], "newest")
+        self.assertEqual(response.context["results_count"], 2)
 
 
 class SeedSnippetsCommandTests(TestCase):
@@ -87,3 +87,13 @@ class SeedSnippetsCommandTests(TestCase):
         self.assertEqual(first_count, second_count)
         self.assertTrue({"git", "bash", "python", "javascript", "sql", "django"}.issubset(languages))
         self.assertTrue({"backend", "frontend", "database", "devops", "utils"}.issubset(categories))
+
+    def test_create_form_exposes_all_languages_present_in_seed(self):
+        response = self.client.get(reverse("snippet_create"))
+
+        self.assertEqual(response.status_code, 200)
+        language_values = {value for value, _label in response.context["form"].fields["lenguaje"].choices}
+
+        self.assertTrue(
+            {"bash", "css", "django", "docker", "git", "html", "javascript", "json", "python", "regex", "sql", "yaml"}.issubset(language_values)
+        )
