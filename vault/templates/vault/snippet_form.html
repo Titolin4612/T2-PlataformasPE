@@ -3,50 +3,53 @@
 {% block title %}{{ titulo_pagina }}{% endblock %}
 
 {% block content %}
-<div class="mx-auto max-w-3xl rounded-3xl border border-slate-800 bg-slate-900/95 p-6 shadow-xl shadow-slate-950/20 sm:p-8">
-    <div class="mb-8">
-        <h1 class="text-3xl font-semibold text-white">{{ titulo_pagina }}</h1>
-        <p class="mt-3 text-slate-400">Completa los campos para guardar tu snippet de la manera más clara y ordenada.</p>
+<section class="mx-auto max-w-4xl">
+    <div class="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.9),rgba(2,6,23,0.96))] p-6 shadow-glow sm:p-8">
+        <div class="max-w-2xl">
+            <p class="text-[0.72rem] font-bold uppercase tracking-[0.3em] text-cyan-300">Editor de snippets</p>
+            <h1 class="mt-4 text-4xl font-bold tracking-[-0.05em] text-white">{{ titulo_pagina }}</h1>
+            <p class="mt-4 text-sm leading-7 text-slate-300">Completa los datos del snippet para guardarlo de forma clara, ordenada y fácil de reutilizar.</p>
+        </div>
+
+        <form method="post" class="mt-8 space-y-6">
+            {% csrf_token %}
+
+            <div class="space-y-2">
+                <label class="text-sm font-semibold text-slate-200" for="{{ form.titulo.id_for_label }}">Título</label>
+                {{ form.titulo }}
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-200" for="{{ form.lenguaje.id_for_label }}">Lenguaje</label>
+                    {{ form.lenguaje }}
+                </div>
+                <div class="space-y-2">
+                    <label class="text-sm font-semibold text-slate-200" for="{{ form.categoria.id_for_label }}">Categoría</label>
+                    {{ form.categoria }}
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-semibold text-slate-200" for="{{ form.descripcion.id_for_label }}">Descripción</label>
+                {{ form.descripcion }}
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-sm font-semibold text-slate-200" for="{{ form.codigo.id_for_label }}">Código</label>
+                {{ form.codigo }}
+            </div>
+
+            <label class="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200" for="{{ form.destacado.id_for_label }}">
+                {{ form.destacado }}
+                <span class="font-medium">Marcar como destacado</span>
+            </label>
+
+            <div class="flex flex-wrap gap-3 pt-2">
+                <button type="submit" class="inline-flex items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-r from-cyan-300 to-sky-400 px-6 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5">{{ texto_boton }}</button>
+                <a href="{% url 'snippet_list' %}" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/30 hover:bg-cyan-300/10">Cancelar</a>
+            </div>
+        </form>
     </div>
-
-    <form method="post" class="space-y-6">
-        {% csrf_token %}
-
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-200">Título</label>
-            {{ form.titulo }}
-        </div>
-
-        <div class="grid gap-4 sm:grid-cols-2">
-            <div class="space-y-2">
-                <label class="text-sm font-medium text-slate-200">Lenguaje</label>
-                {{ form.lenguaje }}
-            </div>
-            <div class="space-y-2">
-                <label class="text-sm font-medium text-slate-200">Categoría</label>
-                {{ form.categoria }}
-            </div>
-        </div>
-
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-200">Descripción</label>
-            {{ form.descripcion }}
-        </div>
-
-        <div class="space-y-2">
-            <label class="text-sm font-medium text-slate-200">Código</label>
-            {{ form.codigo }}
-        </div>
-
-        <label class="inline-flex items-center gap-3 rounded-2xl border border-slate-800 bg-slate-950/80 px-4 py-3 text-sm text-slate-200 shadow-inner shadow-slate-950/20">
-            {{ form.destacado }}
-            <span>Marcar como destacado</span>
-        </label>
-
-        <div class="flex flex-wrap gap-3">
-            <button type="submit" class="inline-flex items-center justify-center rounded-2xl bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition duration-200 hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50">{{ texto_boton }}</button>
-            <a href="{% url 'snippet_list' %}" class="inline-flex items-center justify-center rounded-2xl border border-slate-700 bg-slate-900/80 px-6 py-3 text-sm font-semibold text-slate-200 transition duration-200 hover:border-indigo-500 hover:text-white">Cancelar</a>
-        </div>
-    </form>
-</div>
+</section>
 {% endblock %}
