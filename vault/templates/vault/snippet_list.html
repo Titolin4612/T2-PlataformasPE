@@ -1,0 +1,46 @@
+{% extends 'vault/base.html' %}
+
+{% block title %}Lista de snippets{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="fw-bold">Biblioteca de snippets</h1>
+        <p class="text-secondary mb-0">Guarda y administra comandos y fragmentos de código.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for snippet in snippets %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card bg-black text-light border-secondary h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="mb-2">
+                        <span class="badge bg-primary">{{ snippet.get_lenguaje_display }}</span>
+                        <span class="badge bg-secondary">{{ snippet.get_categoria_display }}</span>
+                        {% if snippet.destacado %}
+                            <span class="badge bg-warning text-dark">Destacado</span>
+                        {% endif %}
+                    </div>
+
+                    <h5 class="card-title">{{ snippet.titulo }}</h5>
+                    <p class="card-text text-secondary">{{ snippet.descripcion|truncatechars:100 }}</p>
+
+                    <pre class="bg-dark border border-secondary rounded p-3 small mt-2 text-info overflow-auto"><code>{{ snippet.codigo|truncatechars:180 }}</code></pre>
+
+                    <div class="mt-auto d-flex justify-content-between align-items-center pt-3">
+                        <small class="text-secondary">{{ snippet.creado_en|date:"d/m/Y H:i" }}</small>
+                        <a href="{% url 'snippet_detail' snippet.pk %}" class="btn btn-outline-light btn-sm">Ver detalle</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-secondary">
+                No hay snippets todavía. Crea el primero.
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
