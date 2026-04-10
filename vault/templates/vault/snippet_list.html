@@ -1,215 +1,119 @@
-{% extends 'vault/base.html' %}
-
+{% extends 'vault/base.html' %} #snippet_list.html es la plantilla que muestra toda la lista de snippets. 
 {% block title %}Lista de snippets{% endblock %}
 
 {% block content %}
-<section class="space-y-6">
-    <header class="overflow-hidden rounded-[34px] border border-white/10 bg-[linear-gradient(145deg,rgba(15,23,42,0.94),rgba(2,6,23,0.98))] shadow-glow">
-        <div class="grid gap-8 px-6 py-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(320px,0.9fr)] lg:px-10 lg:py-10">
-            <div class="max-w-3xl">
-                <p class="text-[0.72rem] font-bold uppercase tracking-[0.34em] text-cyan-300">Tus snippets</p>
-                <h1 class="mt-4 max-w-[10ch] text-5xl font-bold leading-[0.95] tracking-[-0.06em] text-white sm:text-6xl">
-                    Organiza, encuentra y reutiliza tus fragmentos en segundos.
-                </h1>
-                <p class="mt-5 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
-                    Command Vault es tu biblioteca personal para guardar comandos, bloques de código y referencias técnicas.
-                    Agrupa por lenguaje y categoría, filtra rápido y copia lo que necesitas sin perder tiempo buscando entre notas sueltas.
-                </p>
+<section class="vault-overview">
+    <header class="vault-hero">
+        <div>
+            <p class="vault-kicker">Command Vault</p>
+            <h1 class="vault-title">Biblioteca de snippets para flujo de desarrollo profesional.</h1>
+            <p class="vault-subtitle">Administra comandos y bloques reutilizables con una interfaz tipo dashboard técnico: visual limpio, tarjetas escaneables y previews de código con mejor jerarquía.</p>
 
-                <div class="mt-7 flex flex-wrap gap-3">
-                    <a href="{% url 'snippet_create' %}" class="inline-flex items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-r from-cyan-300 to-sky-400 px-6 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(14,165,233,0.28)]">
-                        Crear snippet
-                    </a>
-                    <a href="#snippet-grid" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-cyan-300/10">
-                        Ver biblioteca
-                    </a>
-                </div>
-
-                <div class="mt-8 grid gap-3 sm:grid-cols-3">
-                    <div class="rounded-3xl border border-white/10 bg-white/5 p-4">
-                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-slate-400">Snippets</p>
-                        <p class="mt-3 text-3xl font-bold tracking-[-0.05em] text-white">{{ total_count }}</p>
-                        <p class="mt-2 text-sm leading-6 text-slate-400">Tu base central de comandos y fragmentos reutilizables.</p>
-                    </div>
-                    <div class="rounded-3xl border border-cyan-400/20 bg-cyan-400/10 p-4">
-                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-cyan-200">Destacados</p>
-                        <p class="mt-3 text-3xl font-bold tracking-[-0.05em] text-white">{{ featured_count }}</p>
-                        <p class="mt-2 text-sm leading-6 text-cyan-50/80">Marca lo importante para verlo primero cuando vuelvas.</p>
-                    </div>
-                    <div class="rounded-3xl border border-white/10 bg-white/5 p-4">
-                        <p class="text-xs font-bold uppercase tracking-[0.24em] text-slate-400">Resultados</p>
-                        <p class="mt-3 text-3xl font-bold tracking-[-0.05em] text-white">{{ results_count }}</p>
-                        <p class="mt-2 text-sm leading-6 text-slate-400">Vista actual según filtros y orden seleccionados.</p>
-                    </div>
-                </div>
+            <div class="vault-hero-actions">
+                <a href="{% url 'snippet_create' %}" class="vault-link-btn vault-link-btn--primary">Crear snippet</a>
+                <a href="#snippet-grid" class="vault-link-btn">Explorar biblioteca</a>
             </div>
+        </div>
 
-            <div class="grid gap-4 self-stretch">
-                <article class="rounded-[28px] border border-white/10 bg-white/5 p-5">
-                    <p class="text-xs font-bold uppercase tracking-[0.28em] text-cyan-300">Qué puedes hacer aquí</p>
-                    <div class="mt-5 space-y-4">
-                        <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                            <h2 class="text-lg font-semibold text-white">Centraliza tu conocimiento</h2>
-                            <p class="mt-2 text-sm leading-6 text-slate-300">Guarda snippets de backend, frontend, base de datos o DevOps en un solo lugar.</p>
-                        </div>
-                        <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                            <h2 class="text-lg font-semibold text-white">Filtra y recupera rápido</h2>
-                            <p class="mt-2 text-sm leading-6 text-slate-300">Encuentra por lenguaje, categoría o título sin recorrer listas largas manualmente.</p>
-                        </div>
-                        <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                            <h2 class="text-lg font-semibold text-white">Copia sin salir del flujo</h2>
-                            <p class="mt-2 text-sm leading-6 text-slate-300">Reutiliza código y comandos con un clic desde la biblioteca o el detalle.</p>
-                        </div>
-                    </div>
-                </article>
+        <div class="vault-hero-panel">
+            <article class="vault-panel">
+                <p class="vault-panel-label">Snippets cargados</p>
+                <p class="vault-panel-value">{{ snippets|length }}</p>
+                <p class="vault-panel-copy">Control total de snippets en una vista pensada para lectura rápida y foco técnico.</p>
+            </article>
 
-                <article class="rounded-[28px] border border-white/10 bg-white/5 p-5">
-                    {% if top_languages %}
-                        <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                            <p class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Lenguajes más usados</p>
-                            <div class="mt-4 space-y-3">
-                                {% for language in top_languages %}
-                                    <div class="flex items-center justify-between gap-3">
-                                        <span class="text-sm font-medium text-slate-200">{{ language.label }}</span>
-                                        <span class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs font-semibold text-cyan-100">{{ language.total }}</span>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
-                </article>
-            </div>
+            <article class="vault-panel">
+                <p class="vault-panel-label">Estado del vault</p>
+                <p class="vault-panel-copy">Estructura CRUD intacta con un sistema visual moderno: superficies oscuras, acentos cian y componentes consistentes en todas las vistas.</p>
+            </article>
         </div>
     </header>
 
-    <section class="rounded-[30px] border border-white/10 bg-slate-950/75 p-5 shadow-glow backdrop-blur-xl" aria-label="Filtros de snippets">
-        <form method="get" class="grid gap-4 xl:grid-cols-[repeat(3,minmax(0,1fr))_auto] xl:items-end">
-            <div class="space-y-2">
-                <label for="language" class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Lenguaje</label>
-                <select name="language" id="language" class="w-full rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20">
-                    <option value="">Todos</option>
-                    {% for value, label in language_choices %}
-                        <option value="{{ value }}"{% if active_language == value %} selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="space-y-2">
-                <label for="category" class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Categoría</label>
-                <select name="category" id="category" class="w-full rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20">
-                    <option value="">Todas</option>
-                    {% for value, label in category_choices %}
-                        <option value="{{ value }}"{% if active_category == value %} selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="space-y-2">
-                <label for="sort" class="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Ordenar</label>
-                <select name="sort" id="sort" class="w-full rounded-2xl border border-white/10 bg-slate-900/90 px-4 py-3 text-sm text-slate-100 outline-none transition focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/20">
-                    {% for value, label in sort_choices %}
-                        <option value="{{ value }}"{% if active_sort == value %} selected{% endif %}>{{ label }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="flex flex-wrap gap-3">
-                <button type="submit" class="inline-flex items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-r from-cyan-300 to-sky-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5">
-                    Aplicar
-                </button>
-                {% if filters_active %}
-                    <a href="{% url 'snippet_list' %}" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/30 hover:bg-cyan-300/10">
-                        Limpiar
-                    </a>
-                {% endif %}
-            </div>
-        </form>
-
-        <div class="mt-4 flex flex-col gap-4 border-t border-white/10 pt-4 lg:flex-row lg:items-start lg:justify-between">
-            <div class="flex flex-wrap gap-3 text-sm text-slate-300">
-                <span>{{ results_count }} snippet{{ results_count|pluralize }}</span>
-                {% if total_count != results_count %}
-                    <span>de {{ total_count }} en total</span>
-                {% endif %}
-            </div>
-
-            <div class="flex flex-wrap gap-2">
-                {% if active_language_label %}
-                    <span class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-slate-200">Lenguaje: {{ active_language_label }}</span>
-                {% endif %}
-                {% if active_category_label %}
-                    <span class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-slate-200">Categoría: {{ active_category_label }}</span>
-                {% endif %}
-                {% if active_sort != 'newest' %}
-                    <span class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.14em] text-cyan-100">Orden: {{ active_sort_label }}</span>
-                {% endif %}
-            </div>
-        </div>
-    </section>
-
     {% if snippets %}
-        <section class="grid gap-5 xl:grid-cols-2" id="snippet-grid">
+        <section class="vault-list-layout" id="snippet-grid">
+            <div class="vault-card-grid">
                 {% for snippet in snippets %}
-                    <article class="flex h-full flex-col gap-5 rounded-[30px] border p-5 shadow-glow transition hover:-translate-y-1 {% if snippet.destacado %}border-cyan-400/20 bg-[linear-gradient(180deg,rgba(8,47,73,0.18),rgba(2,6,23,0.95))]{% else %}border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.88),rgba(2,6,23,0.96))]{% endif %}">
-                        <div class="flex flex-wrap gap-2">
-                            <span class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-cyan-100">{{ snippet.get_lenguaje_display }}</span>
-                            <span class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-200">{{ snippet.get_categoria_display }}</span>
+                    <article class="snippet-card{% if snippet.destacado %} snippet-card--featured{% endif %}">
+                        <div class="snippet-card-top">
+                            <div class="snippet-window-dots" aria-hidden="true">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span class="snippet-seq">#{{ forloop.counter|stringformat:"02d" }}</span>
+                        </div>
+
+                        <div class="snippet-tags">
+                            <span class="snippet-tag snippet-tag--language">{{ snippet.get_lenguaje_display }}</span>
+                            <span class="snippet-tag">{{ snippet.get_categoria_display }}</span>
                             {% if snippet.destacado %}
-                                <span class="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-amber-100">Destacado</span>
+                                <span class="snippet-tag snippet-tag--featured">Destacado</span>
                             {% endif %}
                         </div>
 
                         <div>
-                            <h2 class="text-2xl font-bold tracking-[-0.04em] text-white">{{ snippet.titulo }}</h2>
-                            <p class="mt-3 text-sm leading-7 text-slate-300">{{ snippet.descripcion|truncatechars:130 }}</p>
+                            <h2 class="snippet-title">{{ snippet.titulo }}</h2>
+                            <p class="snippet-description">{{ snippet.descripcion|truncatechars:130 }}</p>
                         </div>
 
-                        <div class="overflow-hidden rounded-[24px] border border-white/10 bg-slate-950/90">
-                            <div class="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-slate-400">
-                                <span>Código</span>
-                                <div class="flex items-center gap-3">
+                        <div class="snippet-code">
+                            <div class="snippet-code-header">
+                                <span>Preview</span>
+                                <div class="snippet-code-actions">
                                     <span>{{ snippet.get_lenguaje_display }}</span>
-                                    <button
-                                        type="button"
-                                        class="inline-flex min-w-22 items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 font-sans text-[0.68rem] font-bold uppercase tracking-[0.14em] text-slate-200 transition hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-cyan-300/10"
-                                        data-copy-button
-                                        data-copy-source="#snippet-copy-source-{{ snippet.pk }}"
-                                        aria-label="Copiar snippet {{ snippet.titulo }}"
-                                    >
-                                        <span data-copy-label>Copiar</span>
+                                    <button type="button" class="vault-copy-btn" data-copy-btn>
+                                        <span class="vault-copy-default">Copiar</span>
+                                        <span class="vault-copy-success">Copiado!</span>
                                     </button>
                                 </div>
                             </div>
-                            <pre class="max-h-60 overflow-auto px-4 py-4 font-mono text-xs leading-7 text-cyan-100"><code>{{ snippet.codigo|truncatechars:220 }}</code></pre>
-                            <textarea id="snippet-copy-source-{{ snippet.pk }}" hidden>{{ snippet.codigo }}</textarea>
+                            <pre><code>{{ snippet.codigo }}</code></pre>
                         </div>
 
-                        <footer class="mt-auto flex items-end justify-between gap-4 border-t border-white/10 pt-4">
+                        <footer class="snippet-card-footer">
                             <div>
-                                <p class="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-slate-500">Agregado</p>
-                                <p class="mt-2 text-sm text-slate-200">{{ snippet.creado_en|date:"d/m/Y H:i" }}</p>
+                                <p class="snippet-meta-label">Creado</p>
+                                <p class="snippet-meta-value">{{ snippet.creado_en|date:"d/m/Y H:i" }}</p>
                             </div>
-                            <a href="{% url 'snippet_detail' snippet.pk %}" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/30 hover:bg-cyan-300/10">Ver detalle</a>
+                            <a href="{% url 'snippet_detail' snippet.pk %}" class="vault-card-link">Ver detalle</a>
                         </footer>
                     </article>
                 {% endfor %}
-        </section>
-    {% elif total_count %}
-        <section class="rounded-[30px] border border-dashed border-white/10 bg-slate-950/70 px-6 py-12 text-center">
-            <p class="text-[0.72rem] font-bold uppercase tracking-[0.3em] text-cyan-300">Sin resultados</p>
-            <h2 class="mt-4 text-3xl font-bold tracking-[-0.05em] text-white">No hay snippets con esos filtros.</h2>
-            <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-300">Prueba otra combinación de lenguaje, categoría o criterio de orden para volver a encontrar lo que buscas.</p>
-            <div class="mt-6">
-                <a href="{% url 'snippet_list' %}" class="inline-flex items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-r from-cyan-300 to-sky-400 px-5 py-3 text-sm font-bold text-slate-950">Limpiar filtros</a>
             </div>
+
+            <aside class="vault-sidebar">
+                <section class="vault-sidebar-card">
+                    <p class="vault-kicker">Visual System</p>
+                    <h2 class="vault-sidebar-title">Interfaz oscura con identidad de herramienta de ingeniería.</h2>
+                    <p class="vault-sidebar-copy">Cada componente usa contraste controlado, bordes suaves y profundidad ligera para que el contenido principal sea el código y no la decoración.</p>
+                </section>
+
+                <section class="vault-sidebar-card">
+                    <p class="vault-kicker">Reading Flow</p>
+                    <div class="vault-sidebar-list">
+                        <div class="vault-sidebar-item">
+                            <strong>Etiquetas claras</strong>
+                            <span>Lenguaje, categoría y estado destacado visibles de un vistazo.</span>
+                        </div>
+                        <div class="vault-sidebar-item">
+                            <strong>Preview técnico</strong>
+                            <span>El bloque de código simula un mini panel de terminal/editor moderno.</span>
+                        </div>
+                        <div class="vault-sidebar-item">
+                            <strong>CTA accionable</strong>
+                            <span>Botones con acento cian para mantener foco en acciones clave.</span>
+                        </div>
+                    </div>
+                </section>
+            </aside>
         </section>
     {% else %}
-        <section class="rounded-[30px] border border-dashed border-white/10 bg-slate-950/70 px-6 py-12 text-center">
-            <p class="text-[0.72rem] font-bold uppercase tracking-[0.3em] text-cyan-300">Biblioteca vacía</p>
-            <h2 class="mt-4 text-3xl font-bold tracking-[-0.05em] text-white">No hay snippets todavía.</h2>
-            <p class="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-300">Crea tu primer snippet para empezar a guardar comandos, fragmentos y referencias en un solo lugar.</p>
-            <div class="mt-6">
-                <a href="{% url 'snippet_create' %}" class="inline-flex items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-r from-cyan-300 to-sky-400 px-5 py-3 text-sm font-bold text-slate-950">Crear primer snippet</a>
+        <section class="vault-empty">
+            <p class="vault-kicker">Empty vault</p>
+            <h2 class="vault-empty-title">Tu bóveda aún está vacía.</h2>
+            <p class="vault-empty-copy">Crea el primer snippet para comenzar tu colección técnica. El espacio está listo para organizar comandos, fragmentos y utilidades con un flujo de trabajo limpio y profesional.</p>
+            <div class="vault-empty-actions">
+                <a href="{% url 'snippet_create' %}" class="vault-create-btn">Crear primer snippet</a>
             </div>
         </section>
     {% endif %}

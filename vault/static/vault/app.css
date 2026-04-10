@@ -1,6 +1,6 @@
-:root {
+:root { /*define los colores, las cards, los estilos, etc*/
     color-scheme: dark;
-    --vault-bg: #07111f;
+    --vauloslt-bg: #07111f;
     --vault-bg-elevated: rgba(11, 22, 39, 0.82);
     --vault-bg-soft: rgba(15, 23, 42, 0.82);
     --vault-panel: rgba(7, 14, 28, 0.92);

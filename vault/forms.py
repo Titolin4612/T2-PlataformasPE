@@ -1,3 +1,5 @@
+# forms.py define el formulario para crear y editar snippets.
+
 from django import forms
 from .models import Snippet
 

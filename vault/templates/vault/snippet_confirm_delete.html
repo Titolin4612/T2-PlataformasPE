@@ -1,22 +1,21 @@
-{% extends 'vault/base.html' %}
+{% extends 'vault/base.html' %} #snippet_confirm_delete.html es la plantilla que se muestra cuando el usuario intenta eliminar un snippet. 
 
 {% block title %}Eliminar snippet{% endblock %}
 
 {% block content %}
-<section class="mx-auto max-w-2xl">
-    <div class="rounded-[32px] border border-rose-400/20 bg-[linear-gradient(180deg,rgba(30,10,18,0.92),rgba(2,6,23,0.96))] p-6 shadow-glow sm:p-8">
-        <div>
-            <p class="text-[0.72rem] font-bold uppercase tracking-[0.3em] text-rose-200">Eliminar snippet</p>
-            <h1 class="mt-4 text-4xl font-bold tracking-[-0.05em] text-white">Confirmar eliminación</h1>
-            <p class="mt-4 text-sm leading-7 text-slate-200">¿Seguro que deseas eliminar <strong>{{ snippet.titulo }}</strong>?</p>
-            <p class="mt-3 text-sm leading-7 text-rose-100/80">Esta acción no se puede deshacer.</p>
-        </div>
+<section class="vault-form-layout">
+    <article class="vault-surface vault-confirm-panel">
+        <header class="vault-form-head">
+            <p class="vault-kicker">Danger zone</p>
+            <h1 class="vault-form-title">Eliminar snippet</h1>
+            <p class="vault-form-copy">¿Seguro que deseas eliminar <strong>{{ snippet.titulo }}</strong>? Esta acción no se puede deshacer.</p>
+        </header>
 
-        <form method="post" class="mt-8 flex flex-wrap gap-3">
+        <form method="post" class="vault-form-actions">
             {% csrf_token %}
-            <button type="submit" class="inline-flex items-center justify-center rounded-full border border-rose-400/20 bg-rose-400/15 px-6 py-3 text-sm font-semibold text-rose-50 transition hover:-translate-y-0.5 hover:bg-rose-400/20">Sí, eliminar</button>
-            <a href="{% url 'snippet_detail' snippet.pk %}" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/30 hover:bg-cyan-300/10">Cancelar</a>
+            <button type="submit" class="vault-btn vault-btn--danger">Sí, eliminar</button>
+            <a href="{% url 'snippet_detail' snippet.pk %}" class="vault-btn vault-btn--ghost">Cancelar</a>
         </form>
-    </div>
+    </article>
 </section>
 {% endblock %}

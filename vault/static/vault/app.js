@@ -1,3 +1,5 @@
+// app.js es el que hace que el botón de copiar funcione.
+
 async function copySnippetText(text) {
     if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(text);
