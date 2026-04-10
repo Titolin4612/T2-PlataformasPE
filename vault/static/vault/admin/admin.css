@@ -1,0 +1,1246 @@
+:root {
+    color-scheme: dark;
+    --vault-admin-bg: #180709;
+    --vault-admin-bg-deep: #070203;
+    --vault-admin-panel: rgba(28, 10, 13, 0.92);
+    --vault-admin-panel-soft: rgba(36, 12, 16, 0.82);
+    --vault-admin-panel-muted: rgba(255, 255, 255, 0.04);
+    --vault-admin-border: rgba(148, 163, 184, 0.14);
+    --vault-admin-border-strong: rgba(251, 113, 133, 0.24);
+    --vault-admin-text: #fff1f3;
+    --vault-admin-text-soft: #f6b4bd;
+    --vault-admin-text-faint: #bd7a84;
+    --vault-admin-accent: #fb7185;
+    --vault-admin-accent-strong: #ef4444;
+    --vault-admin-accent-bg: rgba(239, 68, 68, 0.14);
+    --vault-admin-highlight: #fbbf24;
+    --vault-admin-shadow: 0 24px 80px rgba(2, 8, 23, 0.45);
+    --vault-admin-shadow-soft: 0 18px 48px rgba(2, 8, 23, 0.28);
+    --vault-admin-radius-xl: 32px;
+    --vault-admin-radius-lg: 24px;
+    --vault-admin-radius-md: 20px;
+    --vault-admin-radius-sm: 16px;
+    --vault-admin-shell-width: 1400px;
+    --vault-admin-sans: "Space Grotesk", system-ui, sans-serif;
+    --vault-admin-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body.vault-admin-shell {
+    min-height: 100vh;
+    margin: 0;
+    background:
+        radial-gradient(circle at top left, rgba(251, 113, 133, 0.22), transparent 30%),
+        radial-gradient(circle at top right, rgba(239, 68, 68, 0.16), transparent 26%),
+        linear-gradient(180deg, var(--vault-admin-bg) 0%, var(--vault-admin-bg-deep) 100%);
+    color: var(--vault-admin-text);
+    font-family: var(--vault-admin-sans);
+}
+
+body.vault-admin-shell::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: radial-gradient(circle at center, black 42%, transparent 88%);
+}
+
+body.vault-admin-shell::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(251, 113, 133, 0.09), transparent 34%),
+        radial-gradient(circle at 85% 20%, rgba(251, 191, 36, 0.06), transparent 24%);
+}
+
+body.vault-admin-minimal-page {
+    background:
+        radial-gradient(circle at top left, rgba(251, 113, 133, 0.22), transparent 30%),
+        radial-gradient(circle at top right, rgba(239, 68, 68, 0.16), transparent 26%),
+        linear-gradient(180deg, var(--vault-admin-bg) 0%, var(--vault-admin-bg-deep) 100%);
+}
+
+body.vault-admin-minimal-page::before,
+body.vault-admin-minimal-page::after {
+    display: none;
+}
+
+body.vault-admin-minimal-page #header,
+body.vault-admin-minimal-page nav[aria-label="Breadcrumbs"],
+body.vault-admin-minimal-page #footer {
+    display: none;
+}
+
+body.vault-admin-minimal-page .main {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+}
+
+body.vault-admin-minimal-page .content,
+body.vault-admin-minimal-page #content,
+body.vault-admin-minimal-page #content-start {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0 !important;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+body.vault-admin-minimal-page #content {
+    display: grid;
+    place-items: center;
+}
+
+.vault-admin-minimal {
+    display: grid;
+    justify-items: center;
+    gap: 1rem;
+    width: min(24rem, calc(100vw - 2rem));
+    text-align: center;
+}
+
+.vault-admin-minimal h1 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(4rem, 14vw, 9rem);
+    line-height: 0.95;
+    letter-spacing: 0.08em;
+    text-transform: lowercase;
+}
+
+.vault-admin-minimal-login {
+    display: grid;
+    gap: 0.85rem;
+    width: 100%;
+}
+
+.vault-admin-minimal-login .form-row {
+    margin: 0;
+}
+
+body.vault-admin-minimal-page .vault-admin-minimal-login label {
+    margin-bottom: 0.45rem;
+    color: rgba(255, 255, 255, 0.82);
+    letter-spacing: 0.14em;
+}
+
+body.vault-admin-minimal-page .vault-admin-minimal-login input[type="text"],
+body.vault-admin-minimal-page .vault-admin-minimal-login input[type="password"] {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.22);
+    color: #fff;
+}
+
+body.vault-admin-minimal-page .vault-admin-minimal-login input[type="text"]::placeholder,
+body.vault-admin-minimal-page .vault-admin-minimal-login input[type="password"]::placeholder {
+    color: rgba(255, 255, 255, 0.64);
+}
+
+body.vault-admin-minimal-page .vault-admin-minimal-login input:focus {
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.14);
+}
+
+body.vault-admin-minimal-page .vault-admin-minimal-login .submit-row {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+body.vault-admin-minimal-page .vault-admin-minimal-login input[type="submit"] {
+    width: 100%;
+    background: #fff;
+    color: #d40000 !important;
+    box-shadow: none;
+}
+
+.vault-admin-minimal-error {
+    margin: 0;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+a {
+    color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+textarea,
+pre,
+code {
+    font-family: var(--vault-admin-mono);
+}
+
+.skip-to-content-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.skip-to-content-link:focus {
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    width: auto;
+    height: auto;
+    padding: 0.75rem 1rem;
+    border-radius: 999px;
+    background: #0f172a;
+    color: #fff;
+}
+
+#container,
+#container > .main,
+#content-start,
+#content {
+    position: relative;
+    z-index: 1;
+}
+
+#container {
+    min-height: 100vh;
+    background: transparent;
+}
+
+#header,
+nav[aria-label="Breadcrumbs"],
+.main {
+    width: min(var(--vault-admin-shell-width), calc(100% - 2rem));
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: var(--vault-admin-radius-lg);
+    background: rgba(20, 8, 10, 0.8);
+    backdrop-filter: blur(22px);
+    box-shadow: var(--vault-admin-shadow-soft);
+}
+
+#branding,
+#branding h1 {
+    margin: 0;
+}
+
+.vault-admin-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    min-width: 0;
+    text-decoration: none;
+}
+
+.vault-admin-brand-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid var(--vault-admin-border-strong);
+    border-radius: 1rem;
+    background: linear-gradient(180deg, rgba(251, 113, 133, 0.2), rgba(239, 68, 68, 0.1));
+    color: #ffe0e5;
+    font: 700 0.92rem/1 var(--vault-admin-mono);
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+}
+
+.vault-admin-brand-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.vault-admin-brand-kicker {
+    color: #fda4af;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+}
+
+.vault-admin-brand-title {
+    color: #f8fbff;
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+}
+
+#user-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin: 0;
+    color: var(--vault-admin-text-soft);
+    font-size: 0.88rem;
+}
+
+#user-tools a,
+#user-tools button {
+    color: var(--vault-admin-text);
+    font: inherit;
+    text-decoration: none;
+}
+
+#user-tools a:hover,
+#user-tools button:hover {
+    color: var(--vault-admin-accent);
+}
+
+#user-tools #logout-form {
+    margin: 0;
+}
+
+#user-tools #logout-form button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.theme-toggle,
+.theme-toggle-container {
+    display: none;
+}
+
+.vault-admin-separator {
+    display: inline-block;
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 999px;
+    background: rgba(251, 113, 133, 0.75);
+}
+
+nav[aria-label="Breadcrumbs"] {
+    margin-top: 1rem;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+
+.breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.8rem 1.1rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 999px;
+    background: rgba(35, 88, 120, 0.92);
+    color: #d6eefc;
+    font-size: 0.86rem;
+}
+
+.breadcrumbs a {
+    color: #f8fbff;
+    text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+    color: #fff;
+}
+
+.main {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.content {
+    padding: clamp(1.4rem, 3vw, 2rem) !important;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: var(--vault-admin-radius-xl);
+    background:
+        linear-gradient(160deg, rgba(34, 12, 17, 0.96), rgba(15, 4, 6, 0.96)),
+        radial-gradient(circle at top left, rgba(251, 113, 133, 0.09), transparent 34%);
+    box-shadow: var(--vault-admin-shadow);
+}
+
+#content {
+    background: transparent;
+}
+
+#content h1,
+#content h2,
+#content h3 {
+    margin-top: 0;
+    color: #f8fbff;
+}
+
+#footer {
+    background: transparent;
+}
+
+.vault-admin-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0 0;
+    color: var(--vault-admin-text-faint);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.65rem;
+    color: var(--vault-admin-text-soft);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="url"],
+textarea,
+select {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: var(--vault-admin-radius-sm);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--vault-admin-text);
+    box-shadow: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 0;
+    border-color: rgba(251, 113, 133, 0.48);
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.16);
+}
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+.submit-row a,
+a.button,
+button.button,
+.vault-admin-secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-height: 3rem;
+    padding: 0.85rem 1.2rem;
+    border-radius: 999px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+.submit-row a,
+a.button,
+button.button {
+    border: 0;
+    background: linear-gradient(135deg, var(--vault-admin-accent), var(--vault-admin-accent-strong));
+    color: #ffffff !important;
+    font-size: 0.92rem;
+    font-weight: 700;
+    box-shadow: 0 16px 36px rgba(220, 38, 38, 0.28);
+}
+
+.vault-admin-secondary-btn {
+    border: 1px solid var(--vault-admin-border);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--vault-admin-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.submit-row input:hover,
+.submit-row a:hover,
+a.button:hover,
+button.button:hover,
+.vault-admin-secondary-btn:hover {
+    transform: translateY(-1px);
+}
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.submit-row input:hover,
+.submit-row a:hover,
+a.button:hover,
+button.button:hover {
+    box-shadow: 0 22px 44px rgba(220, 38, 38, 0.34);
+}
+
+.vault-admin-secondary-btn:hover {
+    border-color: rgba(251, 113, 133, 0.32);
+    background: rgba(239, 68, 68, 0.12);
+}
+
+.messagelist {
+    margin: 0 0 1rem;
+    padding: 0;
+}
+
+.messagelist li,
+.errornote,
+ul.errorlist li {
+    list-style: none;
+    margin: 0 0 0.9rem;
+    padding: 0.95rem 1rem;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 1rem;
+    background: rgba(251, 191, 36, 0.1);
+    color: #fef3c7;
+}
+
+ul.errorlist {
+    margin: 0 0 0.7rem;
+    padding: 0;
+}
+
+.vault-admin-page,
+.vault-admin-auth {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.vault-admin-page {
+    width: 100%;
+}
+
+.vault-admin-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.8fr);
+    gap: 1.25rem;
+    align-items: stretch;
+    width: 100%;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 28px;
+    background:
+        linear-gradient(145deg, rgba(42, 13, 19, 0.92), rgba(16, 5, 8, 0.92)),
+        linear-gradient(135deg, rgba(251, 113, 133, 0.12), transparent 42%);
+}
+
+.vault-admin-hero-copy {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.vault-admin-hero h1,
+.vault-admin-auth-copy h1 {
+    margin: 0.75rem 0 0;
+    color: #f8fbff;
+    font-size: clamp(2.5rem, 5vw, 4.3rem);
+    line-height: 1.02;
+    letter-spacing: -0.06em;
+    max-width: 12ch;
+    text-wrap: balance;
+}
+
+.vault-admin-hero p:not(.vault-admin-kicker),
+.vault-admin-auth-copy p:not(.vault-admin-kicker) {
+    margin: 0.9rem 0 0;
+    color: var(--vault-admin-text-soft);
+    line-height: 1.7;
+    max-width: 58ch;
+}
+
+.vault-admin-kicker,
+.vault-admin-panel-kicker {
+    margin: 0;
+    color: #fda4af;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+}
+
+.vault-admin-hero-actions,
+.vault-admin-hero-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.vault-admin-hero-note,
+.vault-admin-summary-item,
+.vault-admin-pill,
+.vault-admin-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--vault-admin-text-soft);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.vault-admin-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.vault-admin-badge--accent {
+    border-color: rgba(251, 113, 133, 0.24);
+    background: rgba(239, 68, 68, 0.14);
+    color: #ffe4e8;
+}
+
+.vault-admin-badge--highlight {
+    border-color: rgba(251, 191, 36, 0.2);
+    background: rgba(251, 191, 36, 0.12);
+    color: #fde68a;
+}
+
+.vault-admin-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(190px, 1fr));
+    gap: 1rem;
+    width: 100%;
+}
+
+.vault-admin-stat {
+    min-height: 220px;
+    padding: 1.25rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: var(--vault-admin-radius-md);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.vault-admin-stat--accent {
+    border-color: rgba(251, 113, 133, 0.26);
+    background: linear-gradient(180deg, rgba(239, 68, 68, 0.16), rgba(255, 255, 255, 0.03));
+}
+
+.vault-admin-stat p,
+.vault-admin-stat span {
+    margin: 0;
+}
+
+.vault-admin-stat p {
+    color: var(--vault-admin-text-faint);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.vault-admin-stat strong {
+    display: block;
+    margin-top: 0.75rem;
+    color: #fff;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.05em;
+}
+
+.vault-admin-stat span {
+    display: block;
+    margin-top: 0.65rem;
+    color: var(--vault-admin-text-soft);
+    line-height: 1.65;
+}
+
+.vault-admin-grid,
+.vault-admin-toolbar-layout,
+.vault-admin-detail-grid,
+.vault-admin-auth {
+    display: grid;
+    gap: 1.25rem;
+}
+
+.vault-admin-grid,
+.vault-admin-toolbar-layout {
+    grid-template-columns: minmax(0, 1.6fr) minmax(340px, 0.95fr);
+    align-items: start;
+}
+
+.vault-admin-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vault-admin-detail-grid .vault-admin-panel--code {
+    grid-column: 1 / -1;
+}
+
+.vault-admin-auth {
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 0.9fr);
+    align-items: start;
+}
+
+.vault-admin-panel,
+.vault-admin-empty,
+.vault-admin-auth-copy,
+.vault-admin-auth-card {
+    padding: 1.25rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 24px;
+    background: var(--vault-admin-panel);
+    min-width: 0;
+}
+
+.vault-admin-section-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.vault-admin-section-head h2 {
+    margin: 0.45rem 0 0;
+    font-size: 1.3rem;
+    letter-spacing: -0.04em;
+}
+
+.vault-admin-section-head--nested {
+    margin: 1.1rem 0 0.75rem;
+}
+
+.vault-admin-muted {
+    color: var(--vault-admin-text-faint);
+    font-size: 0.82rem;
+}
+
+.vault-admin-text-link {
+    color: var(--vault-admin-accent);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.vault-admin-text-link:hover {
+    text-decoration: underline;
+}
+
+.vault-admin-list,
+.vault-admin-records,
+.vault-admin-module-list,
+.vault-admin-simple-list {
+    display: grid;
+    gap: 0.85rem;
+}
+
+.vault-admin-list,
+.vault-admin-records,
+.vault-admin-simple-list {
+    margin: 0;
+    padding: 0;
+}
+
+.vault-admin-list-item,
+.vault-admin-record,
+.vault-admin-module-card,
+.vault-admin-simple-list li {
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 18px;
+    background: var(--vault-admin-panel-soft);
+}
+
+.vault-admin-list-item,
+.vault-admin-record,
+.vault-admin-module-card {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.05rem;
+    text-decoration: none;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+    min-width: 0;
+}
+
+.vault-admin-list-item:hover,
+.vault-admin-record:hover,
+.vault-admin-module-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(251, 113, 133, 0.28);
+    background: rgba(42, 14, 18, 0.92);
+}
+
+.vault-admin-dashboard-page {
+    display: grid;
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.vault-admin-dashboard-page .vault-admin-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(300px, 0.8fr);
+    align-items: stretch;
+}
+
+.vault-admin-dashboard-page .vault-admin-hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.1rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 20px;
+    background: var(--vault-admin-panel-soft);
+    min-width: 0;
+}
+
+.vault-admin-dashboard-page .vault-admin-hero-actions .button,
+.vault-admin-dashboard-page .vault-admin-hero-actions .vault-admin-secondary-btn {
+    width: 100%;
+}
+
+.vault-admin-dashboard-page .vault-admin-hero-note {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.vault-admin-list-item h3,
+.vault-admin-record h2,
+.vault-admin-module-card h2,
+.vault-admin-empty h3 {
+    margin: 0.8rem 0 0;
+    font-size: 1.12rem;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+}
+
+.vault-admin-list-item p,
+.vault-admin-record p,
+.vault-admin-module-card p,
+.vault-admin-empty p,
+.vault-admin-prose {
+    margin: 0.7rem 0 0;
+    color: var(--vault-admin-text-soft);
+    line-height: 1.7;
+}
+
+.vault-admin-list-meta,
+.vault-admin-record-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    min-width: 128px;
+    color: var(--vault-admin-text-faint);
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.vault-admin-list-meta strong,
+.vault-admin-record-side strong {
+    color: var(--vault-admin-accent);
+    font-size: 0.78rem;
+}
+
+.vault-admin-ranking {
+    display: grid;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.vault-admin-ranking li,
+.vault-admin-info-card,
+.vault-admin-tip {
+    padding: 0.95rem 1rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 18px;
+    background: var(--vault-admin-panel-soft);
+}
+
+.vault-admin-ranking li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.vault-admin-ranking strong {
+    color: #fff;
+}
+
+.vault-admin-tip {
+    margin-top: 1rem;
+}
+
+.vault-admin-tip span,
+.vault-admin-info-card span {
+    display: block;
+    color: #fda4af;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.vault-admin-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+}
+
+.vault-admin-info-card strong {
+    display: block;
+    margin-top: 0.65rem;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.vault-admin-action-grid {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.vault-admin-action-card {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 18px;
+    background: var(--vault-admin-panel-soft);
+}
+
+.vault-admin-action-card h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.08rem;
+    letter-spacing: -0.03em;
+}
+
+.vault-admin-action-card p {
+    margin: 0;
+    color: var(--vault-admin-text-soft);
+    line-height: 1.7;
+}
+
+.vault-admin-panel--code {
+    overflow: hidden;
+    padding: 0;
+}
+
+.vault-admin-code-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.1rem;
+    border-bottom: 1px solid var(--vault-admin-border);
+    color: var(--vault-admin-text-faint);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+}
+
+.vault-admin-panel--code pre {
+    margin: 0;
+    max-height: 34rem;
+    overflow: auto;
+    padding: 1.1rem;
+    background: rgba(2, 6, 15, 0.96);
+    color: #ffe1e6;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+}
+
+.vault-admin-simple-list {
+    list-style: none;
+    margin-top: 1.25rem;
+}
+
+.vault-admin-simple-list li {
+    padding: 0.9rem 1rem;
+    color: var(--vault-admin-text-soft);
+}
+
+.vault-admin-form {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.vault-admin-form .form-row {
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.vault-admin-form .submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.vault-admin-form-help {
+    margin: -0.2rem 0 0;
+    color: var(--vault-admin-text-faint);
+    font-size: 0.84rem;
+    line-height: 1.6;
+}
+
+.password-reset-link {
+    margin-top: -0.25rem;
+}
+
+.password-reset-link a {
+    color: var(--vault-admin-accent);
+    text-decoration: none;
+}
+
+.password-reset-link a:hover {
+    text-decoration: underline;
+}
+
+.vault-admin-search-form {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.vault-admin-search-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.vault-admin-search-row input[type="text"] {
+    flex: 1 1 240px;
+    margin: 0;
+}
+
+.vault-admin-search-row button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.85rem 1.2rem;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--vault-admin-accent), var(--vault-admin-accent-strong));
+    color: #ffffff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 16px 36px rgba(220, 38, 38, 0.28);
+}
+
+.vault-admin-search-help,
+.vault-admin-search-meta {
+    color: var(--vault-admin-text-soft);
+    font-size: 0.84rem;
+    line-height: 1.6;
+}
+
+.vault-admin-search-meta {
+    margin: 0;
+}
+
+.vault-admin-search-meta a {
+    color: var(--vault-admin-accent);
+}
+
+.vault-admin-filter-panel {
+    gap: 0.75rem;
+}
+
+.vault-admin-filter-group + .vault-admin-filter-group {
+    margin-top: 0.75rem;
+}
+
+.vault-admin-filter-title {
+    display: block;
+    margin-bottom: 0.65rem;
+    color: var(--vault-admin-text-soft);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.vault-admin-filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.vault-admin-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--vault-admin-border);
+    border-radius: 999px;
+    background: var(--vault-admin-panel-soft);
+    color: var(--vault-admin-text-soft);
+    font-size: 0.82rem;
+    text-decoration: none;
+}
+
+.vault-admin-filter-chip:hover,
+.vault-admin-filter-chip.is-active {
+    background: var(--vault-admin-accent-bg);
+    color: var(--vault-admin-text);
+    border-color: rgba(251, 113, 133, 0.32);
+}
+
+.vault-admin-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.vault-admin-pager,
+.vault-admin-pager-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--vault-admin-text-soft);
+}
+
+@media (max-width: 1200px) {
+    .vault-admin-stats {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+    }
+
+    .vault-admin-grid,
+    .vault-admin-toolbar-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .vault-admin-dashboard-page .vault-admin-hero {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 1080px) {
+    .vault-admin-detail-grid,
+    .vault-admin-auth {
+        grid-template-columns: 1fr;
+    }
+
+    .vault-admin-dashboard-page .vault-admin-hero-actions .button,
+    .vault-admin-dashboard-page .vault-admin-hero-actions .vault-admin-secondary-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 780px) {
+    #header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #user-tools {
+        justify-content: flex-start;
+    }
+
+    .content {
+        padding: 1rem !important;
+        border-radius: 24px;
+    }
+
+    .vault-admin-stats,
+    .vault-admin-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .vault-admin-list-item,
+    .vault-admin-record,
+    .vault-admin-module-card {
+        flex-direction: column;
+    }
+
+    .vault-admin-list-meta,
+    .vault-admin-record-side {
+        align-items: flex-start;
+        min-width: 0;
+    }
+
+    .vault-admin-hero h1,
+    .vault-admin-auth-copy h1 {
+        max-width: none;
+        font-size: clamp(2.1rem, 10vw, 3rem);
+    }
+
+    .vault-admin-footer {
+        letter-spacing: 0.1em;
+    }
+
+    .vault-admin-search-row {
+        align-items: stretch;
+    }
+
+    .vault-admin-search-row button {
+        width: 100%;
+    }
+}

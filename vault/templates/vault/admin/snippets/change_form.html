@@ -1,0 +1,94 @@
+{% extends "vault/admin/base.html" %}
+{% load admin_urls %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-form vault-admin-detail-page{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="{% url 'admin:index' %}">Inicio</a>
+    <span class="vault-admin-separator" aria-hidden="true"></span>
+    <span>{{ opts.app_config.verbose_name }}</span>
+    <span class="vault-admin-separator" aria-hidden="true"></span>
+    <span>{{ opts.verbose_name_plural|capfirst }}</span>
+    {% if original %}
+        <span class="vault-admin-separator" aria-hidden="true"></span>
+        <span>{{ original.titulo }}</span>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if original %}
+    <section class="vault-admin-page">
+        <header class="vault-admin-hero vault-admin-hero--compact">
+            <div class="vault-admin-hero-copy">
+                <p class="vault-admin-kicker">Detalle</p>
+                <h1>{{ original.titulo }}</h1>
+                <p>Vista completa del snippet en modo consulta, con su informacion principal y el codigo asociado.</p>
+            </div>
+
+            <div class="vault-admin-hero-actions">
+                <a class="vault-admin-secondary-btn" href="{% url opts|admin_urlname:'changelist' %}">Volver al listado</a>
+            </div>
+        </header>
+
+        <div class="vault-admin-detail-grid">
+            <article class="vault-admin-panel">
+                <div class="vault-admin-section-head">
+                    <div>
+                        <p class="vault-admin-panel-kicker">Resumen</p>
+                        <h2>Informacion general</h2>
+                    </div>
+                </div>
+
+                <div class="vault-admin-info-grid">
+                    <div class="vault-admin-info-card">
+                        <span>Lenguaje</span>
+                        <strong>{{ original.get_lenguaje_display }}</strong>
+                    </div>
+                    <div class="vault-admin-info-card">
+                        <span>Categoría</span>
+                        <strong>{{ original.get_categoria_display }}</strong>
+                    </div>
+                    <div class="vault-admin-info-card">
+                        <span>Estado</span>
+                        <strong>{% if original.destacado %}Destacado{% else %}Estándar{% endif %}</strong>
+                    </div>
+                    <div class="vault-admin-info-card">
+                        <span>Creado</span>
+                        <strong>{{ original.creado_en|date:"d/m/Y H:i" }}</strong>
+                    </div>
+                    <div class="vault-admin-info-card">
+                        <span>Actualizado</span>
+                        <strong>{{ original.actualizado_en|date:"d/m/Y H:i" }}</strong>
+                    </div>
+                </div>
+            </article>
+
+            <article class="vault-admin-panel">
+                <div class="vault-admin-section-head">
+                    <div>
+                        <p class="vault-admin-panel-kicker">Descripcion</p>
+                        <h2>Contexto</h2>
+                    </div>
+                </div>
+                <div class="vault-admin-prose">{{ original.descripcion|linebreaksbr }}</div>
+            </article>
+
+            <article class="vault-admin-panel vault-admin-panel--code">
+                <div class="vault-admin-code-head">
+                    <span>Codigo</span>
+                    <span>{{ original.get_lenguaje_display }}</span>
+                </div>
+                <pre><code>{{ original.codigo }}</code></pre>
+            </article>
+        </div>
+    </section>
+{% else %}
+    <div class="vault-admin-empty">
+        <p class="vault-admin-panel-kicker">Sin registro</p>
+        <h3>Este panel no permite crear nuevos snippets.</h3>
+        <p>Solo esta disponible la consulta del contenido existente.</p>
+    </div>
+{% endif %}
+{% endblock %}

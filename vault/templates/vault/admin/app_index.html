@@ -1,0 +1,44 @@
+{% extends "vault/admin/base.html" %}
+
+{% block bodyclass %}{{ block.super }} app-index vault-admin-app-page{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="{% url 'admin:index' %}">Inicio</a>
+    <span class="vault-admin-separator" aria-hidden="true"></span>
+    <span>Módulos</span>
+{% endblock %}
+
+{% block content %}
+<section class="vault-admin-page">
+    <header class="vault-admin-hero vault-admin-hero--compact">
+        <div class="vault-admin-hero-copy">
+            <p class="vault-admin-kicker">Modulos</p>
+            <h1>Contenido disponible</h1>
+            <p>Acceso directo a los modulos visibles dentro del panel de administracion.</p>
+        </div>
+    </header>
+
+    <div class="vault-admin-module-list">
+        {% for app in app_list %}
+            {% for model in app.models %}
+                <article class="vault-admin-module-card">
+                    <div>
+                        <p class="vault-admin-panel-kicker">{{ app.name }}</p>
+                        <h2>{{ model.name }}</h2>
+                        <p>Vista de consulta para revisar el contenido registrado.</p>
+                    </div>
+                    <a class="vault-admin-secondary-btn" href="{{ model.admin_url }}">Abrir</a>
+                </article>
+            {% endfor %}
+        {% empty %}
+            <div class="vault-admin-empty">
+                <p class="vault-admin-panel-kicker">Sin módulos</p>
+                <h3>No hay modulos administrativos visibles.</h3>
+                <p>Si mas adelante se registra otro modulo, aparecera aqui.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

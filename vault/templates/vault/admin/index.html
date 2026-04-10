@@ -1,0 +1,145 @@
+{% extends "vault/admin/base.html" %}
+
+{% block bodyclass %}{{ block.super }} dashboard vault-admin-dashboard-page{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="{% url 'admin:index' %}">Inicio</a>
+    <span class="vault-admin-separator" aria-hidden="true"></span>
+    <span>Dashboard</span>
+{% endblock %}
+
+{% block content %}
+<section class="vault-admin-page">
+    <header class="vault-admin-hero">
+        <div class="vault-admin-hero-copy">
+            <p class="vault-admin-kicker">Panel central</p>
+            <h1>Admin de Command Vault</h1>
+            <p>Vista rapida para revisar actividad, abrir modulos y consultar snippets sin perder contexto.</p>
+        </div>
+
+        <div class="vault-admin-hero-actions">
+            <a class="button" href="{% url 'admin:vault_snippet_changelist' %}">Ver snippets</a>
+            <a class="vault-admin-secondary-btn" href="{% url 'snippet_list' %}">Ir al sitio</a>
+            <span class="vault-admin-hero-note">Modo de consulta para equipo interno</span>
+        </div>
+    </header>
+
+    <section class="vault-admin-stats" aria-label="Resumen">
+        <article class="vault-admin-stat vault-admin-stat--accent">
+            <p>Snippets</p>
+            <strong>{{ admin_dashboard.snippet_count }}</strong>
+            <span>Total de registros disponibles en la biblioteca.</span>
+        </article>
+
+        <article class="vault-admin-stat">
+            <p>Destacados</p>
+            <strong>{{ admin_dashboard.featured_count }}</strong>
+            <span>Fragmentos prioritarios marcados para consulta rapida.</span>
+        </article>
+
+        <article class="vault-admin-stat">
+            <p>Lenguajes</p>
+            <strong>{{ admin_dashboard.language_count }}</strong>
+            <span>Diversidad de stack disponible para referencia.</span>
+        </article>
+
+        <article class="vault-admin-stat">
+            <p>Categorias</p>
+            <strong>{{ admin_dashboard.category_count }}</strong>
+            <span>Grupos funcionales usados para clasificar snippets.</span>
+        </article>
+    </section>
+
+    <section class="vault-admin-grid">
+        <article class="vault-admin-panel">
+            <div class="vault-admin-section-head">
+                <div>
+                    <p class="vault-admin-panel-kicker">Ultimos movimientos</p>
+                    <h2>Snippets recientes</h2>
+                </div>
+                <a class="vault-admin-text-link" href="{% url 'admin:vault_snippet_changelist' %}">Ver todo</a>
+            </div>
+
+            {% if admin_dashboard.latest_snippets %}
+                <div class="vault-admin-list">
+                    {% for snippet in admin_dashboard.latest_snippets %}
+                        <a class="vault-admin-list-item" href="{% url 'admin:vault_snippet_change' snippet.pk %}">
+                            <div>
+                                <div class="vault-admin-badges">
+                                    <span class="vault-admin-badge vault-admin-badge--accent">{{ snippet.get_lenguaje_display }}</span>
+                                    <span class="vault-admin-badge">{{ snippet.get_categoria_display }}</span>
+                                    {% if snippet.destacado %}
+                                        <span class="vault-admin-badge vault-admin-badge--highlight">Destacado</span>
+                                    {% endif %}
+                                </div>
+                                <h3>{{ snippet.titulo }}</h3>
+                                <p>{{ snippet.descripcion|truncatechars:130 }}</p>
+                            </div>
+                            <div class="vault-admin-list-meta">
+                                <span>{{ snippet.creado_en|date:"d/m/Y H:i" }}</span>
+                                <strong>Ver ficha</strong>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="vault-admin-empty">
+                    <p class="vault-admin-panel-kicker">Sin registros</p>
+                    <h3>Aun no hay snippets en la biblioteca.</h3>
+                    <p>Cuando se cree el primer snippet, aparecera en esta seccion.</p>
+                </div>
+            {% endif %}
+        </article>
+
+        <aside class="vault-admin-panel">
+            <div class="vault-admin-section-head">
+                <div>
+                    <p class="vault-admin-panel-kicker">Accesos rapidos</p>
+                    <h2>Atajos utiles</h2>
+                </div>
+            </div>
+
+            <div class="vault-admin-action-grid">
+                <article class="vault-admin-action-card">
+                    <span class="vault-admin-panel-kicker">Catalogo</span>
+                    <h3>Gestion de snippets</h3>
+                    <p>Explora, busca y revisa cada snippet con filtros por lenguaje, categoria y estado.</p>
+                    <a class="vault-admin-secondary-btn" href="{% url 'admin:vault_snippet_changelist' %}">Abrir modulo</a>
+                </article>
+
+                <article class="vault-admin-action-card">
+                    <span class="vault-admin-panel-kicker">Navegacion</span>
+                    <h3>Volver a Command Vault</h3>
+                    <p>Abre la biblioteca principal para usar filtros y crear nuevos snippets desde el flujo normal.</p>
+                    <a class="vault-admin-secondary-btn" href="{% url 'snippet_list' %}">Ir al sitio</a>
+                </article>
+            </div>
+
+            <div class="vault-admin-tip">
+                <span>Tip</span>
+                Usa este dashboard como punto de entrada y entra al detalle de cada snippet para validar su contenido completo.
+            </div>
+
+            {% if admin_dashboard.top_languages %}
+                <div class="vault-admin-section-head vault-admin-section-head--nested">
+                    <div>
+                        <p class="vault-admin-panel-kicker">Tendencia</p>
+                        <h2>Lenguajes con mas uso</h2>
+                    </div>
+                </div>
+
+                <ol class="vault-admin-ranking">
+                    {% for language in admin_dashboard.top_languages %}
+                        <li>
+                            <strong>{{ language.label }}</strong>
+                            <span class="vault-admin-pill">{{ language.total }} snippets</span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </aside>
+    </section>
+</section>
+{% endblock %}

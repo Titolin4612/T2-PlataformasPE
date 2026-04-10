@@ -1,0 +1,86 @@
+{% extends "vault/admin/base.html" %}
+
+{% block bodyclass %}{{ block.super }} login vault-admin-login-page{% endblock %}
+
+{% block usertools %}{% endblock %}
+
+{% block nav-breadcrumbs %}{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content %}
+<section class="vault-admin-auth" aria-label="Login admin">
+    <article class="vault-admin-auth-copy">
+        <p class="vault-admin-kicker">Acceso interno</p>
+        <h1>Inicia sesion en el panel de administracion</h1>
+        <p>Este entorno esta pensado para consulta interna de snippets y seguimiento del contenido registrado.</p>
+
+        <div class="vault-admin-info-grid">
+            <div class="vault-admin-info-card">
+                <span>Tipo de acceso</span>
+                <strong>Solo usuarios staff</strong>
+            </div>
+            <div class="vault-admin-info-card">
+                <span>Permisos</span>
+                <strong>Modo de lectura</strong>
+            </div>
+            <div class="vault-admin-info-card">
+                <span>Flujo sugerido</span>
+                <strong>Dashboard > Snippets</strong>
+            </div>
+            <div class="vault-admin-info-card">
+                <span>Sitio principal</span>
+                <strong>Command Vault</strong>
+            </div>
+        </div>
+
+        <div class="vault-admin-tip">
+            <span>Nota</span>
+            Si necesitas crear o editar snippets, usa el flujo principal de la aplicacion.
+        </div>
+    </article>
+
+    <article class="vault-admin-auth-card">
+        <div class="vault-admin-section-head">
+            <div>
+                <p class="vault-admin-panel-kicker">Credenciales</p>
+                <h2>Entrar al panel</h2>
+            </div>
+        </div>
+
+        {% if form.errors and not form.non_field_errors %}
+            <p class="errornote">Revisa usuario y clave.</p>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+            {% for error in form.non_field_errors %}
+                <p class="errornote">{{ error }}</p>
+            {% endfor %}
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <p class="errornote">La cuenta {{ username }} no tiene permisos de admin.</p>
+        {% endif %}
+
+        <form action="{{ app_path }}" method="post" id="login-form" class="vault-admin-form">
+            {% csrf_token %}
+            <div class="form-row">
+                {{ form.username.errors }}
+                <label for="{{ form.username.id_for_label }}">Usuario</label>
+                {{ form.username }}
+            </div>
+            <div class="form-row">
+                {{ form.password.errors }}
+                <label for="{{ form.password.id_for_label }}">Clave</label>
+                {{ form.password }}
+                <input type="hidden" name="next" value="{{ next }}">
+            </div>
+            <p class="vault-admin-form-help">Usa las mismas credenciales de tu cuenta interna.</p>
+            <div class="submit-row">
+                <input type="submit" value="Entrar">
+                <a class="vault-admin-secondary-btn" href="{% url 'snippet_list' %}">Volver al sitio</a>
+            </div>
+        </form>
+    </article>
+</section>
+{% endblock %}

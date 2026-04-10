@@ -1,0 +1,148 @@
+{% extends "vault/admin/base.html" %}
+{% load admin_urls %}
+
+{% block bodyclass %}{{ block.super }} app-{{ opts.app_label }} model-{{ opts.model_name }} change-list vault-admin-collection-page{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block breadcrumbs %}
+    <a href="{% url 'admin:index' %}">Inicio</a>
+    <span class="vault-admin-separator" aria-hidden="true"></span>
+    <span>{{ cl.opts.app_config.verbose_name }}</span>
+    <span class="vault-admin-separator" aria-hidden="true"></span>
+    <span>{{ cl.opts.verbose_name_plural|capfirst }}</span>
+{% endblock %}
+
+{% block content %}
+<section class="vault-admin-page">
+    <header class="vault-admin-hero vault-admin-hero--compact">
+        <div class="vault-admin-hero-copy">
+            <p class="vault-admin-kicker">Catalogo</p>
+            <h1>Snippets</h1>
+            <p>Listado simple para buscar, filtrar y abrir cada snippet del sistema.</p>
+        </div>
+
+        <div class="vault-admin-hero-summary">
+            <span class="vault-admin-summary-item">Resultados: {{ cl.result_count }}</span>
+            <span class="vault-admin-summary-item">Destacados: {{ admin_dashboard.featured_count }}</span>
+            <span class="vault-admin-summary-item">Lenguajes: {{ admin_dashboard.language_count }}</span>
+        </div>
+    </header>
+
+    <section class="vault-admin-toolbar-layout">
+        <article class="vault-admin-panel vault-admin-search-panel">
+            <div class="vault-admin-section-head">
+                <div>
+                    <p class="vault-admin-panel-kicker">Busqueda</p>
+                    <h2>Encontrar snippets</h2>
+                </div>
+            </div>
+            <form id="changelist-search" method="get" class="vault-admin-search-form">
+                {% for key, value in search_hidden_inputs %}
+                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                {% endfor %}
+
+                <label for="searchbar">Buscar</label>
+                <div class="vault-admin-search-row">
+                    <input
+                        id="searchbar"
+                        type="text"
+                        name="q"
+                        value="{{ cl.query }}"
+                        placeholder="Titulo, descripcion o codigo"
+                    >
+                    <button type="submit">Buscar</button>
+                </div>
+
+                <p class="vault-admin-search-help">Busca por titulo, descripcion o contenido del codigo.</p>
+                {% if cl.query %}
+                    <p class="vault-admin-search-meta">
+                        {{ cl.result_count }} resultados para "{{ cl.query }}".
+                        <a href="{{ request.path }}">Limpiar busqueda</a>
+                    </p>
+                {% endif %}
+            </form>
+        </article>
+
+        {% if filter_sections %}
+            <aside class="vault-admin-panel vault-admin-filter-panel" aria-labelledby="changelist-filter-header">
+                <div class="vault-admin-section-head">
+                    <div>
+                        <p class="vault-admin-panel-kicker">Filtros</p>
+                        <h2 id="changelist-filter-header">Ajustar vista</h2>
+                    </div>
+                    <a class="vault-admin-text-link" href="{{ request.path }}">Limpiar</a>
+                </div>
+
+                {% for section in filter_sections %}
+                    <div class="vault-admin-filter-group">
+                        <span class="vault-admin-filter-title">{{ section.title }}</span>
+                        <div class="vault-admin-filter-options">
+                            {% for item in section.items %}
+                                <a class="vault-admin-filter-chip{% if item.selected %} is-active{% endif %}" href="{{ item.url }}">
+                                    {{ item.label }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </aside>
+        {% endif %}
+    </section>
+
+    {% if cl.result_list %}
+        <section class="vault-admin-panel">
+            <div class="vault-admin-section-head">
+                <div>
+                    <p class="vault-admin-panel-kicker">Resultados</p>
+                    <h2>{{ cl.result_count }} snippets</h2>
+                </div>
+            </div>
+
+            <div class="vault-admin-records">
+                {% for snippet in cl.result_list %}
+                    <a class="vault-admin-record" href="{% url cl.opts|admin_urlname:'change' snippet.pk|admin_urlquote %}">
+                        <div class="vault-admin-record-main">
+                            <div class="vault-admin-badges">
+                                <span class="vault-admin-badge vault-admin-badge--accent">{{ snippet.get_lenguaje_display }}</span>
+                                <span class="vault-admin-badge">{{ snippet.get_categoria_display }}</span>
+                                {% if snippet.destacado %}
+                                    <span class="vault-admin-badge vault-admin-badge--highlight">Destacado</span>
+                                {% endif %}
+                            </div>
+
+                            <h2>{{ snippet.titulo }}</h2>
+                            <p>{{ snippet.descripcion|truncatechars:150 }}</p>
+                        </div>
+
+                        <div class="vault-admin-record-side">
+                            <span>{{ snippet.creado_en|date:"d/m/Y H:i" }}</span>
+                            <strong>Ver detalle</strong>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="vault-admin-pagination">
+                <div class="vault-admin-pager">
+                    <span>Pagina {{ pagination_state.current }} de {{ pagination_state.total }}</span>
+                    <span>{{ pagination_state.result_count }} resultados</span>
+                </div>
+                <div class="vault-admin-pager-actions">
+                    {% if pagination_state.previous_url %}
+                        <a class="vault-admin-secondary-btn" href="{{ pagination_state.previous_url }}">Anterior</a>
+                    {% endif %}
+                    {% if pagination_state.next_url %}
+                        <a class="vault-admin-secondary-btn" href="{{ pagination_state.next_url }}">Siguiente</a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <div class="vault-admin-empty">
+            <p class="vault-admin-panel-kicker">Sin registros</p>
+            <h3>No hay snippets para mostrar.</h3>
+            <p>Cuando la biblioteca tenga contenido, aparecera aqui.</p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
