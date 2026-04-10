@@ -1,6 +1,3 @@
-# models.py define la estructura de datos para los snippets, incluyendo campos como título, lenguaje, categoría, descripción, código y si es destacado. 
-# aqui es donde se crea las tablas en la base de datos y se definen las relaciones entre los datos.
-
 from django.db import models
 
 

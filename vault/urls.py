@@ -1,6 +1,3 @@
-# urls.py define las rutas para las vistas relacionadas con los snippets, incluyendo la lista de snippets, detalles, creación, edición y eliminación.
-# urls.py recibe lo que quiere el usuario y lo manda a views.py para que haga el proceso necesario.
-
 from django.urls import path
 from . import views
 

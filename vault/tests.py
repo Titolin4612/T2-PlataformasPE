@@ -1,5 +1,3 @@
-#tests.py contiene pruebas unitarias para verificar que todo este funcionando bien.
-
 from io import StringIO
 from datetime import timedelta
 

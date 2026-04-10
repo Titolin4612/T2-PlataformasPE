@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-#aqui esta el archivo donde se ejecutan los comandos de django como el runserver, migrate, etc. 
-
 """Django's command-line utility for administrative tasks."""
 import os
 import sys

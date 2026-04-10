@@ -1,5 +1,5 @@
-{% load static %} #base.html es la plantilla base para todas las páginas de la aplicación vault. define la estructura HTML común.
-<!DOCTYPE html> 
+{% load static %}
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -13,94 +13,48 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: {
-                        surface: '#0f172a',
-                        surface2: '#111827',
-                        surface3: '#1e293b'
-                    }
-                }
-            }
-        }
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+                    },
+                    boxShadow: {
+                        glow: '0 30px 80px rgba(8, 47, 73, 0.32)',
+                    },
+                },
+            },
+        };
     </script>
-    <link rel="stylesheet" href="{% static 'vault/app.css' %}">
 </head>
-<body class="vault-app min-h-screen bg-slate-950 text-slate-100 antialiased">
-
-<div class="vault-ambient" aria-hidden="true">
-    <span class="vault-ambient-glow vault-ambient-glow--one"></span>
-    <span class="vault-ambient-glow vault-ambient-glow--two"></span>
+<body class="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased">
+<div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.18),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(14,165,233,0.14),_transparent_24%),linear-gradient(180deg,_#06101d_0%,_#020617_100%)]"></div>
+    <div class="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.06)_1px,transparent_1px)] bg-[size:34px_34px] [mask-image:radial-gradient(circle_at_center,black_40%,transparent_88%)]"></div>
 </div>
 
-<header class="vault-topbar">
-    <div class="vault-shell vault-topbar-inner">
-        <a class="vault-brand" href="{% url 'snippet_list' %}">
-            <span class="vault-brand-mark">CV</span>
-            <span class="vault-brand-copy">
-                <span class="vault-brand-kicker">Developer vault</span>
-                <span class="vault-brand-title">Command Vault</span>
-            </span>
-        </a>
+<div class="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-8 pt-4 sm:px-6 lg:px-8">
+    <header class="sticky top-0 z-30 py-3">
+        <div class="flex items-center justify-between gap-4 rounded-[28px] border border-white/10 bg-slate-950/75 px-5 py-4 shadow-glow backdrop-blur-xl">
+            <a class="flex min-w-0 items-center gap-4" href="{% url 'snippet_list' %}">
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-cyan-400/25 bg-cyan-400/10 font-mono text-sm font-bold tracking-[0.18em] text-cyan-100">CV</span>
+                <span class="flex min-w-0 flex-col">
+                    <span class="text-[0.68rem] font-bold uppercase tracking-[0.32em] text-cyan-300">Biblioteca personal</span>
+                    <span class="truncate text-lg font-semibold tracking-[-0.03em] text-white">Command Vault</span>
+                </span>
+            </a>
 
-        <div class="vault-topbar-actions">
-            <a href="{% url 'snippet_create' %}" class="vault-create-btn">Nuevo snippet</a>
+            <div class="flex items-center gap-3">
+                <a href="{% url 'snippet_create' %}" class="inline-flex items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-r from-cyan-300 to-sky-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(14,165,233,0.28)]">
+                    Nuevo snippet
+                </a>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<main class="vault-shell vault-main">
-    {% block content %}{% endblock %}
-</main>
+    <main class="flex-1 py-6">
+        {% block content %}{% endblock %}
+    </main>
+</div>
 
-<script>
-    (function () {
-        function setCopiedState(button) {
-            button.classList.add("is-copied");
-            clearTimeout(button._copyTimer);
-            button._copyTimer = setTimeout(function () {
-                button.classList.remove("is-copied");
-            }, 1600);
-        }
-
-        async function copyText(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                await navigator.clipboard.writeText(text);
-                return true;
-            }
-
-            var temp = document.createElement("textarea");
-            temp.value = text;
-            temp.style.position = "fixed";
-            temp.style.opacity = "0";
-            document.body.appendChild(temp);
-            temp.focus();
-            temp.select();
-            var ok = document.execCommand("copy");
-            document.body.removeChild(temp);
-            return ok;
-        }
-
-        document.addEventListener("click", async function (event) {
-            var button = event.target.closest("[data-copy-btn]");
-            if (!button) return;
-
-            var codeWrap = button.closest(".snippet-code, .vault-code-panel");
-            if (!codeWrap) return;
-
-            var codeEl = codeWrap.querySelector("code");
-            if (!codeEl) return;
-
-            var text = codeEl.textContent || "";
-            if (!text.trim()) return;
-
-            try {
-                await copyText(text);
-                setCopiedState(button);
-            } catch (error) {
-                console.error("No se pudo copiar el snippet:", error);
-            }
-        });
-    })();
-</script>
-
+<script src="{% static 'vault/app.js' %}" defer></script>
 </body>
 </html>

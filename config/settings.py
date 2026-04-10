@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-#settings.py es el archivo de configuración principal del proyecto Django, donde se definen las configuraciones globales como la base de datos, aplicaciones instaladas, middleware, rutas de plantillas, entre otros aspectos esenciales para el funcionamiento del proyecto.
 
 from pathlib import Path
 
@@ -31,7 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [      # INSTALLED_APPS define las aplicaciones que forman parte del proyecto, tanto django como vault.
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,7 +52,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
-TEMPLATES = [       
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
