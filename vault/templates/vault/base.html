@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    {# BASE DOCUMENT: metadatos comunes y recursos globales compartidos por todas las pantallas. #}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Command Vault{% endblock %}</title>
@@ -10,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // UI BASE: tipografías y sombra reutilizadas por las plantillas renderizadas con Tailwind.
         tailwind.config = {
             theme: {
                 extend: {
@@ -26,12 +28,14 @@
     </script>
 </head>
 <body class="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased">
+{# CAPA DECORATIVA: fondo fijo con gradientes y retícula para toda la aplicación. #}
 <div class="fixed inset-0 -z-10 overflow-hidden">
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.18),_transparent_26%),radial-gradient(circle_at_top_right,_rgba(14,165,233,0.14),_transparent_24%),linear-gradient(180deg,_#06101d_0%,_#020617_100%)]"></div>
     <div class="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.06)_1px,transparent_1px)] bg-[size:34px_34px] [mask-image:radial-gradient(circle_at_center,black_40%,transparent_88%)]"></div>
 </div>
 
 <div class="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-8 pt-4 sm:px-6 lg:px-8">
+    {# NAVEGACIÓN GLOBAL: marca del producto y acceso directo a crear un snippet. #}
     <header class="sticky top-0 z-30 py-3">
         <div class="flex items-center justify-between gap-4 rounded-[28px] border border-white/10 bg-slate-950/75 px-5 py-4 shadow-glow backdrop-blur-xl">
             <a class="flex min-w-0 items-center gap-4" href="{% url 'snippet_list' %}">
@@ -50,11 +54,13 @@
         </div>
     </header>
 
+    {# SLOT PRINCIPAL: aquí se inyecta el contenido específico de cada vista. #}
     <main class="flex-1 py-6">
         {% block content %}{% endblock %}
     </main>
 </div>
 
+{# JS GLOBAL: maneja interacciones comunes como copiar snippets al portapapeles. #}
 <script src="{% static 'vault/app.js' %}" defer></script>
 </body>
 </html>

@@ -9,8 +9,10 @@ from django.utils import timezone
 from vault.models import Snippet
 
 
+# PRUEBAS DEL LISTADO: cubren filtros, orden, renderizado y valores por defecto del dashboard.
 class SnippetListViewTests(TestCase):
     def create_snippet(self, **overrides):
+        # HELPER DE DATOS: crea snippets de prueba con valores base fáciles de sobrescribir.
         data = {
             "titulo": "Snippet base",
             "lenguaje": "python",
@@ -23,6 +25,7 @@ class SnippetListViewTests(TestCase):
         return Snippet.objects.create(**data)
 
     def test_list_supports_filtering_and_sorting_via_query_params(self):
+        # CASO READ LIST: asegura que el CRUD listado respeta filtros y ordenamiento por URL.
         self.create_snippet(titulo="Alpha API helper", lenguaje="python", categoria="backend")
         self.create_snippet(titulo="Zeta API helper", lenguaje="python", categoria="backend")
         self.create_snippet(titulo="Terminal cleanup", lenguaje="bash", categoria="utils")
@@ -47,6 +50,7 @@ class SnippetListViewTests(TestCase):
         self.assertTrue(response.context["filters_active"])
 
     def test_copy_button_is_rendered_in_list_and_detail(self):
+        # UI COPY: confirma que listado y detalle exponen los anchors usados por JavaScript.
         snippet = self.create_snippet(titulo="Copiar comando")
 
         list_response = self.client.get(reverse("snippet_list"))
@@ -58,6 +62,7 @@ class SnippetListViewTests(TestCase):
         self.assertContains(detail_response, f'id="snippet-code-{snippet.pk}"')
 
     def test_list_defaults_to_newest_without_internal_panels(self):
+        # ORDEN POR DEFECTO: sin parámetros, el listado debe mostrar primero el snippet más reciente.
         older = self.create_snippet(titulo="Snippet antiguo")
         Snippet.objects.filter(pk=older.pk).update(creado_en=timezone.now() - timedelta(days=2))
         self.create_snippet(titulo="Snippet reciente")
@@ -71,8 +76,10 @@ class SnippetListViewTests(TestCase):
         self.assertEqual(response.context["results_count"], 2)
 
 
+# PRUEBAS DEL SEED: validan carga inicial, cobertura mínima y consistencia del formulario.
 class SeedSnippetsCommandTests(TestCase):
     def test_seed_command_is_idempotent_and_covers_required_groups(self):
+        # COMANDO DE CARGA: ejecutar seed dos veces no debe duplicar registros.
         output = StringIO()
 
         call_command("seed_snippets", stdout=output)
@@ -89,6 +96,7 @@ class SeedSnippetsCommandTests(TestCase):
         self.assertTrue({"backend", "frontend", "database", "devops", "utils"}.issubset(categories))
 
     def test_create_form_exposes_all_languages_present_in_seed(self):
+        # CONSISTENCIA UI-DATOS: el formulario debe ofrecer todos los lenguajes cargados por seed.
         response = self.client.get(reverse("snippet_create"))
 
         self.assertEqual(response.status_code, 200)

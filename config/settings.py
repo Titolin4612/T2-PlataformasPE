@@ -12,23 +12,23 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# RUTA BASE: punto de referencia para construir paths de base de datos, estáticos y otros recursos.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
+# ENTORNO DE DESARROLLO: estos valores son útiles localmente y deben endurecerse en producción.
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SEGURIDAD: clave interna usada por Django para sesiones, firmas y otras operaciones sensibles.
 SECRET_KEY = 'django-insecure-qq3cv*fy_a9(3%!_5_ri6og$!ut8ce3kf8b2$=ia86y_8#8j+a'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# MODO DEBUG: habilita trazas y utilidades de desarrollo.
 DEBUG = True
 
+# HOSTS PERMITIDOS: lista vacía porque el proyecto está preparado para correr localmente.
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# APPS INSTALADAS: módulos base de Django y la app principal donde vive el CRUD de snippets.
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'vault',
 ]
 
+# MIDDLEWARE: cadena de procesamiento para seguridad, sesión, autenticación y mensajes.
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,8 +51,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# ENRUTAMIENTO RAÍZ: archivo que delega las URLs generales del proyecto.
 ROOT_URLCONF = 'config.urls'
 
+# TEMPLATES: configuración del motor de plantillas y de los context processors globales.
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -67,11 +70,11 @@ TEMPLATES = [
     },
 ]
 
+# DESPLIEGUE WSGI: punto de entrada para servidores compatibles con WSGI.
 WSGI_APPLICATION = 'config.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+# BASE DE DATOS: se usa SQLite para mantener el proyecto simple en desarrollo.
 
 DATABASES = {
     'default': {
@@ -81,8 +84,7 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+# VALIDACIÓN DE CONTRASEÑAS: reglas estándar de Django para usuarios administrativos.
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -100,8 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
+# LOCALIZACIÓN: idioma y zona horaria por defecto para renderizado y fechas del sistema.
 
 LANGUAGE_CODE = 'es-co'
 
@@ -112,12 +113,10 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+# ARCHIVOS ESTÁTICOS: prefijo desde el que Django expone CSS, JavaScript e imágenes.
 
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+# LLAVE PRIMARIA POR DEFECTO: tipo de ID automático para nuevos modelos.
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

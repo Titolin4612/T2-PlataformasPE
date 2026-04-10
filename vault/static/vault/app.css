@@ -1,3 +1,4 @@
+/* TOKENS DE DISEÑO: paleta, tipografías, radios y sombras compartidas por toda la interfaz. */
 :root {
     color-scheme: dark;
     --vault-bg: #07111f;
@@ -24,6 +25,7 @@
     --vault-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
+/* REGLAS BASE: reset mínimo y estilos globales del body. */
 *,
 *::before,
 *::after {
@@ -62,6 +64,7 @@ body.vault-app::before {
     mask-image: radial-gradient(circle at center, black 46%, transparent 88%);
 }
 
+/* ESTRUCTURA GENERAL: contenedor exterior y barra superior persistente. */
 .vault-shell {
     position: relative;
     z-index: 1;
@@ -159,6 +162,7 @@ body.vault-app::before {
     box-shadow: 0 0 14px rgba(52, 211, 153, 0.6);
 }
 
+/* ACCIONES REUTILIZABLES: botones y enlaces con comportamiento visual consistente. */
 .vault-create-btn,
 .vault-link-btn,
 .vault-card-link {
@@ -183,6 +187,7 @@ body.vault-app::before {
     box-shadow: 0 16px 36px rgba(14, 165, 233, 0.28);
 }
 
+/* PANTALLA DE LISTADO: hero, toolbar de filtros y copy principal del overview. */
 .vault-main {
     padding: 2rem 0 3rem;
 }
@@ -319,6 +324,7 @@ body.vault-app::before {
     gap: 1rem;
 }
 
+/* ESTADO DE FILTROS Y RESULTADOS: chips activos, grid y contenedores del listado. */
 .vault-toolbar-summary {
     display: flex;
     flex-wrap: wrap;
@@ -358,6 +364,7 @@ body.vault-app::before {
     width: 100%;
 }
 
+/* TARJETAS DE SNIPPETS: resumen visual, etiquetas, código y acciones del CRUD READ. */
 .vault-card-grid {
     display: grid;
     gap: 1.35rem;
@@ -564,6 +571,7 @@ body.vault-app::before {
     color: #ffe1e8;
 }
 
+/* SUPERFICIES REUTILIZABLES: bases para formulario, detalle y confirmaciones. */
 .vault-page-stack {
     display: grid;
     gap: 1.25rem;
@@ -643,6 +651,7 @@ body.vault-app::before {
     font-weight: 600;
 }
 
+/* FORMULARIOS: inputs, textareas, checkbox y fila de acciones de create/update. */
 .vault-input {
     width: 100%;
     padding: 0.95rem 1rem;
@@ -701,6 +710,7 @@ body.vault-app::before {
     gap: 0.75rem;
 }
 
+/* DETALLE Y ESTADOS VACÍOS: bloques informativos, navegación y mensajes sin resultados. */
 .vault-detail-header {
     display: flex;
     align-items: flex-start;
@@ -843,6 +853,7 @@ body.vault-app::before {
     outline-offset: 3px;
 }
 
+/* CÓDIGO Y FEEDBACK VISUAL: scrollbars, hover y foco en elementos interactivos. */
 .snippet-code pre::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -857,6 +868,7 @@ body.vault-app::before {
     background: rgba(15, 23, 42, 0.35);
 }
 
+/* RESPONSIVE: adapta toolbar, tarjetas, topbar y formularios en pantallas más estrechas. */
 @media (max-width: 1080px) {
     .vault-toolbar-form {
         grid-template-columns: repeat(2, minmax(0, 1fr));

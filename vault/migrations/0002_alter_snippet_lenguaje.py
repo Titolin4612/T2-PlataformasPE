@@ -3,12 +3,15 @@
 from django.db import migrations, models
 
 
+# MIGRACIÓN DE AJUSTE: amplía la lista de lenguajes disponibles para el modelo Snippet.
 class Migration(migrations.Migration):
 
+    # DEPENDENCIA DIRECTA: este cambio se aplica después de la creación inicial del modelo.
     dependencies = [
         ('vault', '0001_initial'),
     ]
 
+    # OPERACIÓN: actualiza el campo lenguaje para aceptar más opciones predefinidas.
     operations = [
         migrations.AlterField(
             model_name='snippet',

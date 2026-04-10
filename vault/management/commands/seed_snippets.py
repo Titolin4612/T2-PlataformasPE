@@ -4,6 +4,7 @@ from django.db import transaction
 from vault.models import Snippet
 
 
+# DATASET DE SEMILLA: catálogo base de snippets de distintas áreas para poblar la aplicación.
 SAMPLE_SNIPPETS = [
     # ============================================================================
     # GIT - DevOps
@@ -1462,13 +1463,16 @@ logging:
 
 
 class Command(BaseCommand):
+    # COMANDO DE GESTIÓN: permite cargar o refrescar snippets iniciales sin duplicarlos.
     help = "Carga snippets completos para desarrollo sin duplicarlos."
 
     @transaction.atomic
     def handle(self, *args, **options):
+        # CONTADORES DE RESULTADO: resumen cuántos registros se crean y cuántos se actualizan.
         created_count = 0
         updated_count = 0
 
+        # UPSERT DE SEMILLA: cada título funciona como clave estable para insertar o refrescar datos.
         for item in SAMPLE_SNIPPETS:
             _, created = Snippet.objects.update_or_create(
                 titulo=item["titulo"],
@@ -1486,6 +1490,7 @@ class Command(BaseCommand):
             else:
                 updated_count += 1
 
+        # REPORTE FINAL: informa el estado total del catálogo luego de ejecutar el seed.
         total_count = Snippet.objects.count()
         self.stdout.write(
             self.style.SUCCESS(

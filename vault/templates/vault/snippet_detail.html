@@ -4,9 +4,11 @@
 
 {% block content %}
 <section class="space-y-5">
+    {# DETALLE READ: muestra toda la información del snippet seleccionado. #}
     <article class="rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.9),rgba(2,6,23,0.96))] p-6 shadow-glow sm:p-8">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div class="max-w-3xl">
+                {# METADATOS VISUALES: lenguaje, categoría y marca de destacado. #}
                 <div class="flex flex-wrap gap-2">
                     <span class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-cyan-100">{{ snippet.get_lenguaje_display }}</span>
                     <span class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-slate-200">{{ snippet.get_categoria_display }}</span>
@@ -20,12 +22,14 @@
                 </div>
             </div>
 
+            {# ACCIONES CRUD: acceso directo a editar o eliminar el snippet actual. #}
             <div class="flex flex-wrap gap-3">
                 <a href="{% url 'snippet_update' snippet.pk %}" class="inline-flex items-center justify-center rounded-full border border-cyan-300/20 bg-gradient-to-r from-cyan-300 to-sky-400 px-5 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5">Editar</a>
                 <a href="{% url 'snippet_delete' snippet.pk %}" class="inline-flex items-center justify-center rounded-full border border-rose-400/20 bg-rose-400/10 px-5 py-3 text-sm font-semibold text-rose-100 transition hover:-translate-y-0.5 hover:bg-rose-400/15">Eliminar</a>
             </div>
         </div>
 
+        {# BLOQUE DE CÓDIGO: contenido completo del snippet con botón de copiado. #}
         <div class="mt-8 overflow-hidden rounded-[28px] border border-white/10 bg-slate-950/90">
             <div class="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 font-mono text-[0.72rem] uppercase tracking-[0.14em] text-slate-400">
                 <span>Código</span>
@@ -45,6 +49,7 @@
             <pre id="snippet-code-{{ snippet.pk }}" class="overflow-auto px-4 py-5 font-mono text-xs leading-7 text-cyan-100 sm:text-sm"><code>{{ snippet.codigo }}</code></pre>
         </div>
 
+        {# FECHAS DEL REGISTRO: útiles para saber cuándo se creó y actualizó el snippet. #}
         <div class="mt-6 grid gap-4 md:grid-cols-2">
             <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
                 <p class="text-[0.72rem] font-bold uppercase tracking-[0.2em] text-slate-500">Agregado</p>
@@ -57,6 +62,7 @@
         </div>
     </article>
 
+    {# NAVEGACIÓN DE RETORNO: vuelve al listado principal sin alterar el registro. #}
     <a href="{% url 'snippet_list' %}" class="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-slate-100 transition hover:border-cyan-300/30 hover:bg-cyan-300/10">Volver a la lista</a>
 </section>
 {% endblock %}

@@ -3,13 +3,16 @@
 from django.db import migrations, models
 
 
+# MIGRACIÓN INICIAL: crea la tabla base del modelo Snippet con su estructura original.
 class Migration(migrations.Migration):
 
     initial = True
 
+    # DEPENDENCIAS: al ser la primera migración, no necesita pasos previos.
     dependencies = [
     ]
 
+    # OPERACIONES: define la creación de la tabla y de cada campo persistido.
     operations = [
         migrations.CreateModel(
             name='Snippet',

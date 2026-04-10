@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+# RUTAS DEL CRUD: listado, detalle, creación, edición y eliminación de snippets.
 urlpatterns = [
     path('', views.snippet_list, name='snippet_list'),
     path('snippet/<int:pk>/', views.snippet_detail, name='snippet_detail'),

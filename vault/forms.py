@@ -1,6 +1,7 @@
 from django import forms
 from .models import Snippet
 
+# ESTILOS REUTILIZABLES: concentran la apariencia base de inputs y selects del formulario CRUD.
 BASE_INPUT_CLASSES = (
     'w-full rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 '
     'text-sm text-slate-100 outline-none transition placeholder:text-slate-500 '
@@ -8,10 +9,13 @@ BASE_INPUT_CLASSES = (
 )
 
 
+# FORMULARIO CRUD: conecta el modelo Snippet con los campos visibles en crear y editar.
 class SnippetForm(forms.ModelForm):
     class Meta:
+        # VÍNCULO CON EL MODELO: define qué campos del snippet se editan desde la interfaz.
         model = Snippet
         fields = ['titulo', 'lenguaje', 'categoria', 'descripcion', 'codigo', 'destacado']
+        # WIDGETS PERSONALIZADOS: ajustan clases, placeholders y tamaños según el tipo de entrada.
         widgets = {
             'titulo': forms.TextInput(attrs={
                 'class': BASE_INPUT_CLASSES,
